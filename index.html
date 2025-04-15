@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<!-- Declara el tipo de documento como HTML5 -->
+<html lang="es" data-theme="light">
+<!-- Elemento raíz del HTML, define el idioma como español ('es') y establece un atributo 'data-theme' inicial como 'light' (para el tema claro/oscuro manejado por CSS/JS) -->
+
+<head>
+  <!-- Sección de metadatos y enlaces del documento, no visible directamente en la página -->
+  <meta charset="UTF-8">
+  <!-- Especifica la codificación de caracteres como UTF-8 (soporta la mayoría de los caracteres y símbolos) -->
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/10306/10306029.png" type="image/x-icon">
+  <!-- Enlace al icono (favicon) que aparece en la pestaña del navegador -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Configura la vista en dispositivos móviles: el ancho de la página se ajusta al ancho del dispositivo y la escala inicial es 1.0 (sin zoom inicial) -->
+  <title>Fernava AI</title>
+  <!-- Título que aparece en la pestaña o barra de título del navegador -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <!-- Enlace a la hoja de estilos de Prism.js (desde un CDN) para el resaltado de sintaxis de código (tema claro por defecto) -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Enlace a la hoja de estilos personalizada ('style.css') que define la apariencia de la aplicación -->
+</head>
+
+<body>
+  <!-- Contenido visible de la página web -->
+
+  <div class="theme-toggle-container">
+    <!-- Contenedor para el botón de cambio de tema (probablemente posicionado de forma absoluta con CSS) -->
+    <button id="themeToggle" title="Cambiar modo claro/oscuro">🌞</button>
+    <!-- Botón para cambiar entre el tema claro y oscuro. El 'id' permite seleccionarlo con JS. El 'title' es el texto que aparece al pasar el ratón (tooltip). El icono (emoji) se actualizará con JS -->
+  </div>
+
+  <div class="container">
+    <!-- Contenedor principal que envuelve la mayoría del contenido de la aplicación, usado para centrar y limitar el ancho -->
+    <div style="text-align: center;">
+      <!-- Contenedor para centrar la imagen del avatar. Nota: Usar estilos en línea ('style=') generalmente se desaconseja; es mejor hacerlo en el archivo CSS. -->
+      <img src="https://avatars.githubusercontent.com/u/198674645?s=400&u=15fd76068f35cd0a00f2dfaee0e473fca92bbe27&v=4" alt="Avatar"
+        style="width: 70px; height: 70px; border-radius: 50%; font-size: 25px;">
+        <!-- Muestra una imagen de avatar. 'src' es la fuente de la imagen, 'alt' es texto alternativo para accesibilidad. Estilos en línea definen tamaño y borde redondeado. -->
+    </div>
+    <h1>En que puedo Ayudarte el dia de doy 😃</h1>
+    <!-- Título principal de la aplicación -->
+
+    <div class="prompt-section">
+      <!-- Sección que contiene el área para ingresar la consulta (prompt) y los botones relacionados -->
+      <textarea class="prompt-area" id="promptInput" placeholder="Escribe tu consulta aquí..."></textarea>
+      <!-- Área de texto multilínea donde el usuario escribe su consulta. 'id' para JS, 'class' para CSS, 'placeholder' es el texto de ayuda que desaparece al escribir -->
+      <div class="button-group">
+        <!-- Contenedor para agrupar los botones principales (Enviar, Limpiar) -->
+        <button id="executeBtn" title="Enviar consulta">
+          <!-- Botón para enviar la consulta a la IA. 'id' para JS, 'title' es el tooltip -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+            <!-- Icono SVG (Scalable Vector Graphics) incrustado directamente en el HTML, representa un avión de papel -->
+            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+          </svg>
+          Enviar <!-- Texto del botón -->
+        </button>
+        <button id="clearBtn" title="Limpiar consulta y resultado">
+          <!-- Botón para limpiar el área de consulta y la caja de resultados. 'id' para JS, 'title' es el tooltip -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser" viewBox="0 0 16 16">
+              <!-- Icono SVG incrustado, representa un borrador -->
+              <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z"/>
+            </svg>
+          Limpiar <!-- Texto del botón -->
+        </button>
+      </div>
+    </div>
+
+    <div class="result-container">
+      <!-- Sección que contiene el área donde se mostrará la respuesta de la IA -->
+      <div class="result-header">
+          <!-- Encabezado de la sección de resultados, contiene el título y los botones de acción -->
+          <h3>Respuesta de la IA:</h3>
+          <!-- Título indicando que esta es la respuesta de la IA -->
+          <div class="result-actions">
+              <!-- Contenedor para agrupar los botones de acción relacionados con el resultado (Copiar, Guardar) -->
+              <button id="copyBtn" title="Copiar al portapapeles" disabled>
+                <!-- Botón para copiar la respuesta al portapapeles. 'id' para JS, 'title' es el tooltip. El atributo 'disabled' lo deshabilita inicialmente hasta que haya un resultado -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                  <!-- Icono SVG incrustado, representa un portapapeles -->
+                  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                </svg>
+                Copiar <!-- Texto del botón -->
+              </button>
+              <button id="saveBtn" title="Guardar como .txt" disabled>
+                <!-- Botón para guardar la respuesta como archivo .txt. 'id' para JS, 'title' es el tooltip. También deshabilitado inicialmente -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                  <!-- Icono SVG incrustado, representa una flecha de descarga -->
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                </svg>
+                Guardar <!-- Texto del botón -->
+              </button>
+          </div>
+      </div>
+      <div id="resultBox" class="result-box">Esperando consulta...</div>
+      <!-- El contenedor ('div') donde se mostrará dinámicamente el texto de la respuesta de la IA. 'id' para JS, 'class' para CSS. El contenido inicial es 'Esperando consulta...' -->
+    </div>
+  </div>
+
+  <div class="loading" id="loading" style="display: none;">
+    <!-- Elemento que muestra un indicador de carga (spinner y texto). 'id' para JS, 'class' para CSS. El estilo en línea 'display: none;' lo oculta por defecto; JS lo mostrará cuando sea necesario -->
+    <div class="spinner"></div>
+    <!-- Elemento visual del spinner (probablemente animado con CSS) -->
+    <span>Cargando...</span>
+    <!-- Texto que acompaña al spinner -->
+  </div>
+
+  <!-- Carga de librerías JavaScript externas al final del body para asegurar que el DOM esté cargado antes de ejecutarlas -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Carga la librería Marked.js (desde un CDN) para convertir texto en formato Markdown a HTML -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <!-- Carga el núcleo de la librería Prism.js (desde un CDN) para el resaltado de sintaxis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <!-- Carga el plugin Autoloader de Prism.js, que permite cargar automáticamente las definiciones de lenguaje necesarias para el resaltado -->
+
+  <script>
+    // --- Inicio del bloque de script JavaScript ---
+    // Este código maneja la lógica del lado del cliente (frontend):
+    // - Obtener referencias a los elementos HTML.
+    // - Manejar clics en botones (Enviar, Limpiar, Copiar, Guardar, Tema).
+    // - Cambiar el tema (claro/oscuro) y guardar la preferencia.
+    // - Enviar la consulta al backend (API).
+    // - Mostrar la respuesta (formateada con Marked y Prism).
+    // - Mostrar/ocultar el indicador de carga.
+    // - Copiar texto al portapapeles.
+    // - Guardar texto como archivo.
+
+    // Referencias a elementos del DOM (obtener los elementos HTML por su 'id')
+    const executeBtn = document.getElementById('executeBtn'); // Botón Enviar
+    const clearBtn = document.getElementById('clearBtn');     // Botón Limpiar
+    const promptInput = document.getElementById('promptInput'); // Área de texto para la consulta
+    const resultBox = document.getElementById('resultBox');     // Div donde se muestra el resultado
+    const loadingIndicator = document.getElementById('loading'); // Div del indicador de carga
+    const copyBtn = document.getElementById('copyBtn');       // Botón Copiar
+    const saveBtn = document.getElementById('saveBtn');       // Botón Guardar
+    const themeToggleBtn = document.getElementById('themeToggle'); // Botón de cambio de tema
+
+    // Estado inicial de los botones de acción (deshabilitados porque no hay resultado)
+    copyBtn.disabled = true;
+    saveBtn.disabled = true;
+
+    // --- Funcionalidad del Tema ---
+    // Obtener el tema guardado en localStorage, o usar 'light' si no hay nada guardado
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    // Aplicar el tema al elemento <html> al cargar la página
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    // Establecer el icono inicial del botón de tema según el tema actual
+    themeToggleBtn.textContent = currentTheme === 'light' ? '🌞' : '🌜';
+
+    // Añadir un 'escuchador' de eventos al botón de tema para que reaccione al clic
+    themeToggleBtn.addEventListener('click', () => {
+      // Determinar cuál será el próximo tema (si es 'light', cambiar a 'dark', y viceversa)
+      let targetTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      // Aplicar el nuevo tema al elemento <html>
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      // Guardar la nueva preferencia de tema en localStorage
+      localStorage.setItem('theme', targetTheme);
+      // Actualizar el icono del botón de tema
+      themeToggleBtn.textContent = targetTheme === 'light' ? '🌞' : '🌜';
+      // Opcional: Si se usaran diferentes temas de Prism para claro/oscuro, se llamarían aquí
+      // updatePrismTheme(targetTheme);
+    });
+
+    // Opcional: Función para cambiar el CSS de Prism si es necesario (actualmente comentada)
+    // function updatePrismTheme(theme) {
+    //   const prismLink = document.querySelector('link[href*="prism"]');
+    //   if (prismLink) {
+    //     prismLink.href = theme === 'dark'
+    //       ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css' // Tema oscuro de Prism
+    //       : 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css';      // Tema claro de Prism
+    //   }
+    // }
+    // updatePrismTheme(currentTheme); // Llamar al cargar la página si se usara la función anterior
+
+
+    // --- Lógica Principal de la App ---
+    // Añadir 'escuchadores' de eventos a los botones principales
+    executeBtn.addEventListener('click', executeQuery);   // Al hacer clic en Enviar, llamar a executeQuery
+    clearBtn.addEventListener('click', clearAll);       // Al hacer clic en Limpiar, llamar a clearAll
+    copyBtn.addEventListener('click', copyToClipboard); // Al hacer clic en Copiar, llamar a copyToClipboard
+    saveBtn.addEventListener('click', saveAsTextFile);  // Al hacer clic en Guardar, llamar a saveAsTextFile
+
+    // Función asíncrona para ejecutar la consulta a la IA
+    async function executeQuery() {
+      const prompt = promptInput.value.trim(); // Obtener el texto del textarea y quitar espacios en blanco al inicio/fin
+      // Si el prompt está vacío, mostrar notificación y salir
+      if (!prompt) {
+        showNotification('Por favor, escribe una consulta.');
+        return;
+      }
+      // Mostrar indicador de carga, poner texto de "Procesando..." y deshabilitar botones de acción
+      showLoading();
+      resultBox.textContent = 'Procesando...';
+      copyBtn.disabled = true;
+      saveBtn.disabled = true;
+
+      try {
+        // Realizar la petición (fetch) al endpoint del backend '/api/generate'
+        const response = await fetch('/api/generate', {
+          method: 'POST', // Usar método POST
+          headers: { 'Content-Type': 'application/json' }, // Indicar que el cuerpo es JSON
+          body: JSON.stringify({ prompt: prompt }), // Enviar el prompt como un objeto JSON
+        });
+
+        // Si la respuesta del servidor no fue exitosa (ej. error 4xx o 5xx)
+        if (!response.ok) {
+          let errorMsg = 'Error al comunicarse con el servidor.';
+          // Intentar leer el mensaje de error específico del JSON de la respuesta
+          try {
+            const errorData = await response.json();
+            errorMsg = `Error ${response.status}: ${errorData.error || 'Detalles no disponibles.'}`;
+          } catch (e) {
+            // Si no se puede leer el JSON, usar el texto de estado HTTP
+            errorMsg = `Error ${response.status}: ${response.statusText}`;
+          }
+          // Lanzar un error para que sea capturado por el bloque catch
+          throw new Error(errorMsg);
+        }
+
+        // Si la respuesta fue exitosa, convertirla de JSON a objeto JavaScript
+        const data = await response.json();
+
+        // Validación robusta de la estructura de la respuesta de la API Gemini
+        // Verificar si existe la estructura esperada: candidates -> content -> parts -> text
+        if (data.candidates && data.candidates.length > 0 && data.candidates[0].content?.parts?.length > 0) {
+          const contentPart = data.candidates[0].content.parts[0];
+          if (contentPart.text) {
+            // Si se encontró el texto, mostrarlo y habilitar botones de copiar/guardar
+            displayResult(contentPart.text);
+            copyBtn.disabled = false;
+            saveBtn.disabled = false;
+          } else {
+            // Si la parte de contenido no tiene texto, mostrar advertencia y error
+             console.warn('La parte de contenido no contiene texto:', contentPart);
+             resultBox.innerHTML = '<span class="error-message">La respuesta no contiene texto legible.</span>';
+             copyBtn.disabled = true;
+             saveBtn.disabled = true;
+          }
+        } else {
+          // Si la estructura de la respuesta no es la esperada, mostrar advertencia y error
+          console.warn('Respuesta inesperada o vacía de la API:', data);
+          resultBox.innerHTML = '<span class="error-message">No se recibió una respuesta válida del modelo.</span>';
+          copyBtn.disabled = true;
+          saveBtn.disabled = true;
+        }
+      } catch (error) {
+        // Capturar cualquier error ocurrido durante el fetch o el procesamiento
+        console.error('Error en executeQuery:', error); // Mostrar error detallado en la consola del navegador
+        // Mostrar mensaje de error en la caja de resultados para el usuario
+        resultBox.innerHTML = `<span class="error-message">Error: ${error.message}</span>`;
+        // Permitir copiar/guardar el mensaje de error si se desea
+        copyBtn.disabled = false;
+        saveBtn.disabled = false;
+      } finally {
+        // Este bloque se ejecuta siempre, haya habido error o no
+        hideLoading(); // Ocultar el indicador de carga
+      }
+    }
+
+    // Función para mostrar el resultado formateado
+    function displayResult(text) {
+        // Usar marked.parse() para convertir el texto (posiblemente Markdown) a HTML
+        resultBox.innerHTML = marked.parse(text);
+        // Usar Prism.highlightAllUnder() para aplicar resaltado de sintaxis a los bloques de código (etiquetas <pre><code>) dentro de resultBox
+        Prism.highlightAllUnder(resultBox);
+    }
+
+    // Función asíncrona para copiar el resultado al portapapeles
+    async function copyToClipboard() {
+      // Obtener solo el texto visible (sin formato HTML) de la caja de resultados
+      const textToCopy = resultBox.innerText;
+      // Si no hay texto o es el mensaje inicial/procesando, mostrar notificación y salir
+      if (!textToCopy || resultBox.textContent === 'Esperando consulta...' || resultBox.textContent === 'Procesando...') {
+        showNotification('No hay resultado para copiar.');
+        return;
+       }
+      try {
+          // Usar la API del Portapapeles del navegador para escribir el texto
+          await navigator.clipboard.writeText(textToCopy);
+          // Cambiar temporalmente el texto del botón a "¡Copiado!"
+          const originalHTML = copyBtn.innerHTML; // Guardar el contenido original (SVG + texto)
+          copyBtn.textContent = '¡Copiado!';     // Mostrar solo texto temporalmente
+          copyBtn.disabled = true;              // Deshabilitar mientras muestra "Copiado"
+          // Después de 1.5 segundos, restaurar el botón
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML; // Restaurar SVG + texto
+            copyBtn.disabled = false;        // Rehabilitar
+          }, 1500);
+      } catch (err) {
+          // Si la copia falla (ej. permisos denegados), mostrar error en consola y notificación
+          console.error('Error al copiar:', err);
+          showNotification('No se pudo copiar el texto.');
+      }
+    }
+
+    // Función para guardar el resultado como archivo .txt
+    function saveAsTextFile() {
+        // Obtener solo el texto visible de la caja de resultados
+        const textToSave = resultBox.innerText;
+        // Si no hay texto o es el mensaje inicial/procesando, mostrar notificación y salir
+        if (!textToSave || resultBox.textContent === 'Esperando consulta...' || resultBox.textContent === 'Procesando...') {
+          showNotification('No hay resultado para guardar.');
+          return;
+        }
+        try {
+            // Crear un Blob (objeto binario grande) con el texto, especificando tipo y codificación
+            const blob = new Blob([textToSave], { type: 'text/plain;charset=utf-8' });
+            // Crear una URL temporal para el Blob
+            const url = URL.createObjectURL(blob);
+            // Crear un elemento de enlace (<a>) invisible
+            const anchor = document.createElement('a');
+            anchor.href = url; // Establecer la URL del Blob en el enlace
+            // Crear un nombre de archivo descriptivo con la fecha actual
+            const timestamp = new Date().toISOString().slice(0, 10); // Formato YYYY-MM-DD
+            anchor.download = `gemini-respuesta-${timestamp}.txt`; // Sugerir este nombre de archivo para la descarga
+            // Añadir el enlace al cuerpo del documento (necesario para Firefox)
+            document.body.appendChild(anchor);
+            // Simular un clic en el enlace para iniciar la descarga
+            anchor.click();
+            // Quitar el enlace del cuerpo del documento
+            document.body.removeChild(anchor);
+            // Liberar la URL del Blob para liberar memoria
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            // Si ocurre un error durante la creación/descarga del archivo
+            console.error('Error al guardar archivo:', error);
+            showNotification('Ocurrió un error al intentar guardar el archivo.');
+        }
+    }
+
+    // Función para mostrar el indicador de carga y deshabilitar botones
+    function showLoading() {
+      loadingIndicator.style.display = 'flex'; // Mostrar el div de carga (usa flex para centrar)
+      executeBtn.disabled = true;             // Deshabilitar botón Enviar
+      clearBtn.disabled = true;               // Deshabilitar botón Limpiar
+    }
+
+    // Función para ocultar el indicador de carga y habilitar botones
+    function hideLoading() {
+      loadingIndicator.style.display = 'none'; // Ocultar el div de carga
+      executeBtn.disabled = false;            // Habilitar botón Enviar
+      clearBtn.disabled = false;              // Habilitar botón Limpiar
+    }
+
+    // Función para limpiar el área de consulta y resultados
+    function clearAll() {
+      promptInput.value = ''; // Vaciar el textarea
+      resultBox.innerHTML = 'Esperando consulta...'; // Restaurar el mensaje inicial en la caja de resultados
+      copyBtn.disabled = true; // Deshabilitar botón Copiar
+      saveBtn.disabled = true; // Deshabilitar botón Guardar
+    }
+
+    // Función simple para mostrar notificaciones (actualmente usa 'alert')
+    function showNotification(message) {
+        // Se podría reemplazar 'alert' por una implementación más elegante
+        // (ej. un pequeño mensaje que aparece y desaparece en la esquina)
+        alert(message);
+    }
+
+  </script>
+  <!-- Fin del bloque de script JavaScript -->
+</body>
+<!-- Fin del contenido visible -->
+
+</html>
+<!-- Fin del documento HTML -->
